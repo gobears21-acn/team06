@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.models import User
 from .forms import RegistrationForm, LoginForm, MeetingForm
@@ -41,7 +41,7 @@ def register(request):
 def welcome(request):
     if not request.user.is_authenticated:
         return redirect('index')
-    meetings = Meeting.objects.all()
+    meetings = Meeting.objects.filter(user=request.user)
     return render(request, 'welcome.html', {'meetings': meetings})
 
 def reserve_meeting(request):
@@ -68,8 +68,15 @@ def reserve_meeting(request):
         else:
             messages.error(request, 'Failed to reserve meeting. Please fill all fields correctly.')
     else:
-        form = MeetingForm()
+        form = MeetingForm(initial={'user': request.user.username})
     return render(request, 'reservation.html', {'form': form})
+
+
+def delete_meeting(request, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+    meeting.delete()
+    messages.success(request, 'Meeting deleted successfully.')
+    return redirect('welcome')
 
 def logout(request):
     auth_logout(request)

@@ -8,6 +8,17 @@
 
     <!-- Page Container -->
     <div style="background: linear-gradient(to bottom, #6a11cb, #2575fc); color: white; padding: 30px; text-align: center; min-height: 100vh;">
+        
+        <!-- Messages Section -->
+        <div style="padding: 20px;">
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="background-color: #4CAF50; color: white; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
 
         <!-- Heading Section -->
         <h2 style="font-size: 36px; margin: 0;">Meeting List</h2>
@@ -25,6 +36,7 @@
                     <th style="padding: 10px;">Room</th>
                     <th style="padding: 10px;">User Name</th>
                     <th style="padding: 10px;">Comments</th>
+                    <th style="padding: 10px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +51,16 @@
                     <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ meeting.meeting_room }}</td>
                     <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ meeting.user }}</td>
                     <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ meeting.comments }}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+                        <form method="post" action="{% url 'delete_meeting' meeting.id %}">
+                            {% csrf_token %}
+                            <button type="submit" style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 5px;">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="8" style="padding: 20px; text-align: center; color: gray;">No meetings found.</td>
+                    <td colspan="9" style="padding: 20px; text-align: center; color: gray;">No meetings found.</td>
                 </tr>
                 {% endfor %}
             </tbody>

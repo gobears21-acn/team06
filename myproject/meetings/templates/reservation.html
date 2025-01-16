@@ -8,14 +8,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
-<body style="font-family: Arial, sans-serif; background: linear-gradient(135deg, #4B4BF9, #6F6FFC); color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
-    <div class="form-container" style="text-align: center; background-color: #6F6FFC; padding: 2rem; border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); width: 400px;">
+<body style="font-family: Arial, sans-serif; background: linear-gradient(135deg, #4B4BF9, #6F6FFC); color: white; margin: 0; overflow-y: auto;">
+    <div class="form-container" style="text-align: center; background-color: #6F6FFC; padding: 2rem; border-radius: 12px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); width: 400px; margin: 2rem auto;">
         <h2 style="margin-bottom: 1rem;">Reserve a Meeting</h2>
         <form method="post" style="display: flex; flex-direction: column; gap: 0.8rem;">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Reserve Meeting</button>
         </form>
+        <button onclick="location.href='{% url 'welcome' %}'" style="margin-top: 1rem; background-color: white; color: #4B4BF9; padding: 10px 20px; border: none; border-radius: 5px;">Go Back</button>
         {% if error %}
             <p style="color: red; margin-top: 1rem;">{{ error }}</p>
         {% endif %}

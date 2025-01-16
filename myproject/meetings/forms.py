@@ -40,8 +40,12 @@ def validate_time(value):
 class MeetingForm(forms.ModelForm):
     meeting_date = forms.CharField(validators=[validate_date], widget=forms.TextInput(attrs={'placeholder': 'YYYYMMDD'}))
     start_time = forms.CharField(validators=[validate_time], widget=forms.TextInput(attrs={'placeholder': 'HHMMSS'}))
-    duration = forms.DurationField(widget=forms.TextInput(attrs={'placeholder': 'HH'}))
+    duration = forms.ChoiceField(choices=[(str(i/2), f"{i/2} hours") for i in range(1, 21)], widget=forms.Select())
+    meeting_room = forms.ChoiceField(choices=[(f"RM {i}", f"RM {i}") for i in range(1, 11)], widget=forms.Select())
 
     class Meta:
         model = Meeting
         fields = '__all__'
+        widgets = {
+            'user': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
