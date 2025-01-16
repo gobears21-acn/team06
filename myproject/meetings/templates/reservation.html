@@ -14,7 +14,7 @@
         <form method="post" style="display: flex; flex-direction: column; gap: 0.8rem;">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Reserve Meeting</button>
+            <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Reserve Meeting</button>
         </form>
         <button onclick="location.href='{% url 'welcome' %}'" style="margin-top: 1rem; background-color: white; color: #4B4BF9; padding: 10px 20px; border: none; border-radius: 5px;">Go Back</button>
         {% if error %}
